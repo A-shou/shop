@@ -1,13 +1,135 @@
 <template>
-    $END$
+    <div class="classbox">
+      <div class="box clearfix">
+        <img src="../img/back_icon.png" alt="" class="fl backbtn" @click="goback">
+        <div style="width: calc(100% - 0.5rem);" class="fr">
+          <v-search />
+        </div>
+      </div>
+
+      <div class="clearfix class_box">
+        <div class="fl lbox">
+          <div v-for="(item,index) in navlist" class="lbox_list" :class="{lbox_liston: index == navindex}" @click="navto(index)">{{item}}</div>
+        </div>
+
+        <div class="rbox fr">
+          <v-porductlist :list="product" />
+        </div>
+      </div>
+    </div>
 </template>
 
 <script>
+  import porductlist from './block/productList.vue'
+
     export default {
-        name: "class"
+      components: {
+        'v-porductlist':porductlist
+      },
+      data(){
+        return{
+          navindex:0,
+          navlist:['123','123','123','123','123','123','123','123','123','123','123','123','123','123','123'],
+          product:[
+            {
+              img:require('../img/product.jpg'),
+              name:'123',
+              text:'123'
+            },
+            {
+              img:require('../img/product.jpg'),
+              name:'123',
+              text:'123'
+            },
+            {
+              img:require('../img/product.jpg'),
+              name:'123',
+              text:'123'
+            },
+            {
+              img:require('../img/product.jpg'),
+              name:'123',
+              text:'123'
+            },
+            {
+              img:require('../img/product.jpg'),
+              name:'123',
+              text:'123'
+            },
+            {
+              img:require('../img/product.jpg'),
+              name:'123',
+              text:'123'
+            },
+            {
+              img:require('../img/product.jpg'),
+              name:'123',
+              text:'123'
+            },
+            {
+              img:require('../img/product.jpg'),
+              name:'123',
+              text:'123'
+            },
+          ]
+        }
+      },
+      methods:{
+        goback(){
+          this.$router.back(-1)
+        },
+        navto(index){
+          this.navindex = index
+        }
+      }
     }
 </script>
 
 <style scoped>
-
+  .listbox{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .lbox_list{
+    line-height: 1rem;
+    background: #eee;
+    border-bottom: 1px solid #ddd;
+    color: #666;
+    padding-left: 0.1rem;
+  }
+  .lbox_liston{
+    color: #282828;
+    background: #fff;
+  }
+  .class_box{
+    border-top: 1px solid #ddd;
+    height: calc(100% - 2rem);
+  }
+  .lbox{
+    width: 2rem;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+  .rbox{
+    height: 100%;
+    width: calc(100% - 2rem);
+    box-sizing: border-box;
+    padding: 0.2rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+  .classbox{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+  .backbtn{
+    height: 0.4rem;
+    margin-top: 0.3rem;
+  }
 </style>

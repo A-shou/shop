@@ -1,13 +1,52 @@
 <template>
-    $END$
+    <div>
+      <swiper :options="swiperOption" ref="mySwiper" class="bannerbox">
+        <swiper-slide v-for="(item,index) in banner" class="swiper-slide">
+          <div class="imgbox">
+            <img src="../../img/2.jpg">
+          </div>
+        </swiper-slide>
+        <div class="swiper-pagination" slot="pagination"></div>
+      </swiper>
+    </div>
 </template>
 
 <script>
-    export default {
-        name: "swiper"
+  import { swiper, swiperSlide } from 'vue-awesome-swiper'
+
+  export default {
+    components: {
+      swiper,
+      swiperSlide
+    },
+    data(){
+      return{
+        banner:['1','2'],
+        swiperOption: {
+          notNextTick: true,
+          loop:true,
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true
+          },
+          autoplay: {
+            delay: 3000,
+            disableOnInteraction: false
+          },
+          observer:true,//修改swiper自己或子元素时，自动初始化swiper
+          observeParents:true,//修改swiper的父元素时，自动初始化swiper
+        },
+      }
     }
+  }
 </script>
 
 <style scoped>
-
+  .bannerbox{
+    padding-bottom: 0.4rem;
+    background: #eee;
+  }
+  .swiper-pagination{
+    bottom: 0;
+  }
 </style>
