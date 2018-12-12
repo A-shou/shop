@@ -38,5 +38,6 @@ router.beforeEach((to,from,next) => {
   }else if(to.path == '/user'){
     store.state.footindex = 3
   }
+  store.state.footclass = false
   window.scrollTo(0,0);
 })

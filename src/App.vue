@@ -2,7 +2,7 @@
   <div id="app">
     <router-view/>
 
-    <ul class="foot">
+    <ul class="foot" :class="{footdown:$store.state.footclass}">
       <li v-for="(item,index) in foot" class="footlist" @click="pageto(item.to,index)">
         <img v-if="$store.state.footindex != index" :src="item.url" alt="" class="foot_icon">
         <img v-if="$store.state.footindex == index" :src="item.urlon" alt="" class="foot_icon">
@@ -113,6 +113,7 @@ export default {
     align-items: center;
     box-shadow: 0 -0.02rem 0.2rem rgba(0,0,0,0.2);
     background: #fff;
+    transition: 0.4s;
   }
   .footlist{
     width: 25%;
@@ -125,5 +126,8 @@ export default {
   }
   .swiper-pagination-bullet-active{
     background: #ee7900;
+  }
+  .footdown{
+    transform: translateY(110%);
   }
 </style>

@@ -40,7 +40,7 @@
           </label>
         </div>
         <p class="allnumber">总计：</p>
-        <div class="shopbtn">立即结算</div>
+        <div class="shopbtn" @click="shop">立即结算</div>
       </div>
     </div>
 </template>
@@ -51,6 +51,11 @@
         return{
           bianji:false,
           list:['1','2','3','1','2','3','1','2','3','1','2','3']
+        }
+      },
+      methods:{
+        shop(){
+          this.$router.push({path:'/order'})
         }
       }
     }

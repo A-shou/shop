@@ -6,6 +6,7 @@ import classpage from '@/components/class'
 import cart from '@/components/cart'
 import user from '@/components/user'
 import search from '@/components/search_page'
+import product from '@/components/product'
 
 Vue.use(Router)
 
@@ -42,6 +43,31 @@ export default new Router({
       path: '/search',
       name: 'search',
       component: search,
+    },
+    {
+      path: '/product',
+      name: 'product',
+      component: product,
+    },
+    {
+      path: '/order',
+      name: 'order',
+      component: (resolve) => require(['../components/order/order.vue'],resolve),
+    },
+    {
+      path: '/bianji',
+      name: 'bianji',
+      component: (resolve) => require(['../components/order/bianji.vue'],resolve),
+    },
+    {
+      path: '/setlist',
+      name: 'setlist',
+      component: (resolve) => require(['../components/order/setlist.vue'],resolve),
+    },
+    {
+      path: '/pagelist',
+      name: 'pagelist',
+      component: (resolve) => require(['../components/pagelist.vue'],resolve),
     }
   ]
 })

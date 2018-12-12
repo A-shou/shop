@@ -12,7 +12,7 @@
       </div>
 
       <div class="myaouderbox">
-        <p class="clearfix myaouder">
+        <p class="clearfix myaouder" @click="$router.push({path:'/pagelist'})">
           <img class="fl listimg" src="../img/dingdan_icon.png" alt="">
           我的订单
           <img class="fr imgbtn" src="../img/back_icon.png" alt="">
@@ -20,19 +20,19 @@
         </p>
 
         <ul class="listbox">
-          <li class="list">
+          <li class="list" @click="$router.push({path:'/pagelist'})">
             <div class="imgbox">
               <img src="../img/dfk_icon.png" alt="">
             </div>
-            <p>代付款</p>
+            <p>待付款</p>
           </li>
-          <li class="list">
+          <li class="list" @click="$router.push({path:'/pagelist'})">
             <div class="imgbox">
               <img src="../img/dfh_icon.png" alt="">
             </div>
-            <p>代发货</p>
+            <p>待发货</p>
           </li>
-          <li class="list">
+          <li class="list" @click="$router.push({path:'/pagelist'})">
             <div class="imgbox">
               <img src="../img/dsh_icon.png" alt="">
             </div>
@@ -42,7 +42,7 @@
       </div>
 
       <div class="box">
-        <p class="clearfix myaouder">
+        <p class="clearfix myaouder" @click="$router.push({path:'/bianji'})">
           <img class="fl listimg" src="../img/dizhi_icon.png" alt="">
           我的地址
           <img class="fr imgbtn" src="../img/back_icon.png" alt="">

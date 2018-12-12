@@ -1,6 +1,6 @@
 <template>
     <ul class="list_box">
-      <li v-for="(item,index) in list" class="list">
+      <li v-for="(item,index) in list" class="list" @click="productTo">
         <div class="imgbox listimg">
           <p></p>
           <img :src="item.img" alt="">
@@ -17,6 +17,11 @@
       data(){
         return{
 
+        }
+      },
+      methods:{
+        productTo(){
+          this.$router.push({path:'/product'})
         }
       }
     }
