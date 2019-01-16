@@ -7,6 +7,10 @@ import router from './router'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import store from './store'
 
+import vloading from '@/components/block/loading.vue';
+Vue.use(vloading)
+Vue.component('v-loading', vloading);
+
 import search from '@/components/block/search.vue';
 Vue.use(search)
 Vue.component('v-search', search);
@@ -17,6 +21,33 @@ import 'swiper/dist/css/swiper.css'
 Vue.use(VueAwesomeSwiper, /* { default global options } */)
 
 Vue.config.productionTip = false
+
+import axios from 'axios';
+axios.defaults.baseURL = funengData.api//端口号
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+Vue.prototype.$http = axios
+
+Vue.prototype.ajaxPost = function(obj){ //ajax post方法
+  var params = new URLSearchParams();
+  for(var key in obj.data){
+    params.append(key, obj.data[key]);
+  }
+  params.append('siteId', store.state.siteId);
+  this.$http({
+    method: 'post',
+    url: obj.url,
+    data:params,
+    // headers:{
+    //   token: this.$store.state.userdata.token
+    // }
+  }).then(res => {
+    if(obj.success){
+      obj.success(res)
+    }
+  }).catch(err => {
+    console.log(err)
+  })
+}
 
 /* eslint-disable no-new */
 new Vue({

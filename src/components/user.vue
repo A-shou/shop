@@ -24,7 +24,7 @@
             <div class="imgbox">
               <img src="../img/dfk_icon.png" alt="">
             </div>
-            <p>待付款</p>
+            <p>已完成</p>
           </li>
           <li class="list" @click="$router.push({path:'/pagelist'})">
             <div class="imgbox">

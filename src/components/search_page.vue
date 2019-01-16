@@ -66,6 +66,15 @@
           },
         ]
       }
+    },
+    beforeMount(){
+      this.ajaxPost({
+        url:'/cri-cms-api/mall/app/queryCommodity',
+        success:res => {
+          console.log(res)
+          this.product = res.data.results
+        }
+      })
     }
   }
 </script>

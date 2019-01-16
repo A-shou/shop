@@ -6,7 +6,7 @@
 
     <div class="nav_box">
       <ul class="navbox box">
-        <li v-for="(item,index) in navlist" class="navlist" :class="{navliston:navindex == index}">{{item}}</li>
+        <li v-for="(item,index) in navlist" @click="listClick(item)" class="navlist" :class="{navliston:navindex == index}">{{item.typeName}}</li>
       </ul>
       <div class="navmore" @click="$router.push({path:'/class'})">+</div>
     </div>
@@ -18,12 +18,25 @@
 
 <script>
     export default {
-        data(){
-          return{
-            navindex:0,
-            navlist:['123','456','123','456','123','456','123','456'],
-          }
+      data(){
+        return{
+          navindex:0,
+          navlist:['123','456','123','456','123','456','123','456'],
         }
+      },
+      beforeMount(){
+        this.ajaxPost({
+          url:'/cri-cms-api/mall/app/queryType',
+          success: res => {
+            this.navlist = res.data.results
+          }
+        })
+      },
+      methods: {
+        listClick () {
+
+        }
+      }
     }
 </script>
 
@@ -41,7 +54,7 @@
   }
   .navlist{
     display: inline-block;
-    line-height: 0.5rem;
+    line-height: 0.7rem;
     margin: 0 0.2rem;
     color: #666;
   }

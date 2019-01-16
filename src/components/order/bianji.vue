@@ -1,25 +1,21 @@
 <template>
     <div>
+      <div class="box fltop clearfix">
+        <img src="../../img/back_icon.png" alt="" class="fl backbtn" @click="$router.back(-1)">
+      </div>
+      <div style="height: 1rem"></div>
       <ul class="box">
-        <li class="shxx">
-          <p><span>收货人姓名:</span><span>123</span></p>
-          <p><span>收货人电话：</span><span>1111111123232</span></p>
-          <p><span>收货地址：</span><span>dfhsjlhfjwhejfhjhjfhjdhfj</span></p>
-          <img class="bianji" src="../../img/bianji.png" alt="" @click="setlist">
-        </li>
-        <li class="shxx">
-          <p><span>收货人姓名:</span><span>123</span></p>
-          <p><span>收货人电话：</span><span>1111111123232</span></p>
-          <p><span>收货地址：</span><span>dfhsjlhfjwhejfhjhjfhjdhfj</span></p>
-          <img class="bianji" src="../../img/bianji.png" alt="" @click="setlist">
-        </li>
-        <li class="shxx">
-          <p><span>收货人姓名:</span><span>123</span></p>
-          <p><span>收货人电话：</span><span>1111111123232</span></p>
-          <p><span>收货地址：</span><span>dfhsjlhfjwhejfhjhjfhjdhfj</span></p>
-          <img class="bianji" src="../../img/bianji.png" alt="" @click="setlist">
+        <li class="shxx" v-for="(item, index) in list" @click="change(item)">
+          <p><span>收货人姓名:</span><span>{{item.consigneeName}}</span></p>
+          <p><span>收货人电话：</span><span>{{item.consigneePhone}}</span></p>
+          <p><span>收货地址：</span><span>{{item.consigneeProvince}} - {{item.consigneeCity}} - {{item.consigneeArea}} - {{item.consigneeContent}}</span></p>
+          <img class="bianji" src="../../img/bianji.png" alt="" @click.stop="setlist(item)">
         </li>
       </ul>
+
+      <div class="add" @click="addAddress">
+          +
+      </div>
 
     </div>
 </template>
@@ -28,21 +24,46 @@
     export default {
       data(){
        return{
-
+          list:[]
        }
       },
       beforeMount(){
         this.$store.commit('setFootDown')
+        this.ajaxPost({
+          url:'/cri-cms-api/mall/app/queryAddress',
+          data:{
+            userId: this.$store.state.userId
+          },
+          success:res => {
+            console.log(res)
+            this.list = res.data.results
+          }
+        })
       },
       methods:{
-        setlist(){
-          this.$router.push({path:'/setlist'})
+        change (item) {
+          this.$router.replace({path: '/order', query: item})
+        },
+        setlist(data){
+          this.$router.replace({path:'/setlist',query:{type:'change', data: data}})
+        },
+        addAddress(){
+          this.$router.replace({path:'/setlist',query:{type:'add'}})
         }
       }
     }
 </script>
 
 <style scoped>
+  .add{
+    border: 1px solid #ddd;
+    margin: 0.3rem;
+    text-align: center;
+    line-height: 1rem;
+    font-size: 0.6rem;
+    color: #aaa;
+    border-radius: 0.2rem;
+  }
   .shxx{
     line-height: 0.3rem;
     padding: 0.2rem 0;

@@ -3,7 +3,7 @@
       <swiper :options="swiperOption" ref="mySwiper" class="bannerbox">
         <swiper-slide v-for="(item,index) in banner" :key="index" class="swiper-slide">
           <div class="imgbox">
-            <img src="../../img/2.jpg">
+            <img :src="item.pic1">
           </div>
         </swiper-slide>
         <div class="swiper-pagination" slot="pagination"></div>
@@ -19,9 +19,9 @@
       swiper,
       swiperSlide
     },
+    props: [ 'banner' ],
     data(){
       return{
-        banner:['1','2'],
         swiperOption: {
           notNextTick: true,
           loop:true,

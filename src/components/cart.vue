@@ -1,8 +1,8 @@
 <template>
     <div>
-      <div class="box">
-        <v-search />
-      </div>
+      <!--<div class="box">-->
+        <!--<v-search />-->
+      <!--</div>-->
 
       <div class="clearfix toptext">
         <p class="fl">可用积分：<span style="color: #ff4e4e;">123456</span></p>
@@ -11,35 +11,35 @@
 
       <ul class="box">
         <li v-for="(item,index) in list" class="cartlist">
-          <img v-if="bianji" class="remove" src="../img/remove.png" alt="">
-          <label>
-            <div class="checkbox"><span></span></div>
-            <input style="display: none;" type="checkbox"/>
-          </label>
+          <img v-if="bianji" class="remove" src="../img/remove.png" alt="" @click="remove(item.id)">
+          <!--<label>-->
+            <!--<div class="checkbox"><span></span></div>-->
+            <!--<input style="display: none;" type="checkbox"/>-->
+          <!--</label>-->
           <div class="imgbox listimg">
-            <img src="../img/product.jpg" alt="">
+            <img :src="item.mallCommodity.pic1" alt="">
           </div>
           <div class="textbox">
-            <p class="listtitle">123</p>
-            <p class="listtext">积分：123</p>
+            <p class="listtitle">{{item.mallCommodity.commodityName}}</p>
+            <p class="listtext">积分：{{item.mallCommodity.commodityIntegral}}</p>
             <div class="list_box">
-              <span>-</span>
-              <span>1</span>
-              <span>+</span>
+              <span @click="minusNumber(item, index)">-</span>
+              <span>{{item.commodityNum}}</span>
+              <span @click="addNumber(item, index)">+</span>
             </div>
           </div>
         </li>
       </ul>
 
       <div class="cartfoot">
-        <div style="margin-left: 0.3rem;">
-          <label>
-            <div class="checkbox fl"><span></span></div>
-            <input style="display: none;" type="checkbox"/>
-            全选
-          </label>
-        </div>
-        <p class="allnumber">总计：</p>
+        <!--<div style="margin-left: 0.3rem;">-->
+          <!--&lt;!&ndash;<label>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="checkbox fl"><span></span></div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<input style="display: none;" type="checkbox"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;全选&ndash;&gt;-->
+          <!--&lt;!&ndash;</label>&ndash;&gt;-->
+        <!--</div>-->
+        <p class="allnumber" style="padding-left: 0.3rem;">总计：{{allNumber}}</p>
         <div class="shopbtn" @click="shop">立即结算</div>
       </div>
     </div>
@@ -50,11 +50,77 @@
       data(){
         return{
           bianji:false,
-          list:['1','2','3','1','2','3','1','2','3','1','2','3']
+          list:[],
+          allNumber: 0
         }
       },
+      beforeMount(){
+        this.getList()
+      },
       methods:{
+        getList () {
+          this.ajaxPost({
+            url:'/cri-cms-api/mall/app/queryTrolley',
+            data:{
+              userId: this.$store.state.userId,
+            },
+            success: res => {
+              console.log(res)
+              this.list = res.data.results
+              this.allNumber = 0
+              this.list.forEach(item => {
+                this.allNumber += Number(item.commodityNum) * Number(item.mallCommodity.commodityIntegral)
+              })
+            }
+          })
+        },
+        remove (id) {
+          this.ajaxPost({
+            url:'/cri-cms-api/mall/app/delTrolley',
+            data:{
+              ids: id,
+            },
+            success: res => {
+              this.getList()
+            }
+          })
+        },
+        minusNumber (item, index) {
+          item.commodityNum = Number(item.commodityNum)
+          item.commodityNum = item.commodityNum - 1 <= 1 ? 1 : item.commodityNum - 1
+          // this.list.splice(index, 1, item)
+          this.ajaxPost({
+            url:'/cri-cms-api/mall/app/updateTrolley',
+            data:{
+              id: item.id,
+              commodityNum: item.commodityNum,
+            },
+            success: res => {
+              this.getList()
+            }
+          })
+        },
+        addNumber (item, index) {
+          item.commodityNum = Number(item.commodityNum)
+          item.commodityNum = item.commodityNum + 1 >= item.mallCommodity.inventoryNum ? item.mallCommodity.inventoryNum : item.commodityNum + 1
+          // this.list.splice(index, 1, item)
+          this.ajaxPost({
+            url:'/cri-cms-api/mall/app/updateTrolley',
+            data:{
+              id: item.id,
+              commodityNum: item.commodityNum,
+            },
+            success: res => {
+              this.getList()
+            }
+          })
+        },
         shop(){
+          let obj = {
+            list: this.list,
+            allNumber: this.allNumber
+          }
+          this.$store.commit('setCartData',obj)
           this.$router.push({path:'/order'})
         }
       }
@@ -135,7 +201,7 @@
     background: #ffa84e;
   }
   .listimg{
-    width: 1.5rem;
+    width: 2.9rem;
     height: 1.5rem;
     margin-right: 0.2rem;
   }

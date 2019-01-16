@@ -9,7 +9,7 @@
 
       <div class="clearfix class_box">
         <div class="fl lbox">
-          <div v-for="(item,index) in navlist" class="lbox_list" :class="{lbox_liston: index == navindex}" @click="navto(index)">{{item}}</div>
+          <div v-for="(item,index) in navlist" class="lbox_list" :class="{lbox_liston: index == navindex}" @click="navto(index)">{{item.typeName}}</div>
         </div>
 
         <div class="rbox fr">
@@ -73,6 +73,14 @@
             },
           ]
         }
+      },
+      beforeMount(){
+        this.ajaxPost({
+          url:'/cri-cms-api/mall/app/queryType',
+          success: res => {
+            this.navlist = res.data.results
+          }
+        })
       },
       methods:{
         goback(){

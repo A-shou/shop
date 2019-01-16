@@ -3,11 +3,11 @@
     <!--居住地址三级联动选项-->
     <p style="margin-bottom: 0.2rem;" @click="showChose = true">选择收货地址</p>
     <p @click="showChose = true" class="addressspan">
-      <span>{{Province ? Province : ''}}</span>
-      <span>{{City ? City : ''}}</span>
-      <span>{{District ? District : ''}}</span>
+      <span>{{ovalue.Province ? ovalue.Province : ''}}</span>
+      <span>{{ovalue.City ? ovalue.City : ''}}</span>
+      <span>{{ovalue.District ? ovalue.District : ''}}</span>
     </p>
-    <input placeholder="详细地址" type="text"/>
+    <input v-model="ovalue.text" placeholder="详细地址" type="text"/>
     <section class="showChose" v-show="showChose">
       <section class="address">
         <section class="title">
@@ -15,9 +15,9 @@
           <span @click="closeAdd()">×</span>
         </section>
         <section class="title">
-          <div class="area" @click="provinceSelected()">{{Province?Province:info[province-1].name}}</div>
-          <div class="area" @click="citySelected()" :class="City?'':'active'">{{City?City:'请选择'}}</div>
-          <div class="area" @click="districtSelected()" :class="District?'':'active'" v-show="City">{{District?District:'请选择'}}</div>
+          <div class="area" @click="provinceSelected()">{{ovalue.Province?ovalue.Province:info[province-1].name}}</div>
+          <div class="area" @click="citySelected()" :class="ovalue.City?'':'active'">{{ovalue.City?ovalue.City:'请选择'}}</div>
+          <div class="area" @click="districtSelected()" :class="ovalue.District?'':'active'" v-show="ovalue.City">{{ovalue.District?ovalue.District:'请选择'}}</div>
         </section>
         <ul>
           <li class="addList" v-for="(v,k) in info" @click="getProvinceId(v.id, v.name, k)" v-show="showProvince" :class="v.selected ? 'active' : ''">{{v.name}}</li>
@@ -31,8 +31,15 @@
 
 <script>
   export default {
+    props: [ 'ovalue' ],
     data () {
       return {
+        // ovalue:{
+        //   text:'',
+        //   District: false,
+        //   Province: false,
+        //   City: false,
+        // },
         showChose: false,
         showProvince: true,
         showCity: false,
@@ -43,9 +50,7 @@
         city: 3,
         district: 57,
         GetProvinceId: 2,
-        District: false,
-        Province: false,
-        City: false,
+
         // v-for循环判断是否为当前
         selected: false,
         info: [
@@ -3662,6 +3667,20 @@
         ]
       }
     },
+    watch:{
+      'ovalue.District'(){
+        this.$emit('input',this.ovalue)
+      },
+      'ovalue.text'(){
+        this.$emit('input',this.ovalue)
+      },
+      'ovalue.Province'(){
+        this.$emit('input',this.ovalue)
+      },
+      'ovalue.City'(){
+        this.$emit('input',this.ovalue)
+      }
+    },
     methods: {
       choseAdd: function() {
         this.showChose = true;
@@ -3680,7 +3699,7 @@
       },
       getProvinceId: function(code,input,index) {
         this.province = code;
-        this.Province = input;
+        this.ovalue.Province = input;
         this.showProvince=false;
         this.showCity=true;
         this.showDistrict = false;
@@ -3695,8 +3714,8 @@
         this.showCityList = false;
         this.showDistrictList = false;
         // 清除市级和区级选项
-        this.City = false;
-        this.District = false;
+        this.ovalue.City = false;
+        this.ovalue.District = false;
         // 选项页面的切换
         this.showProvince = true;
         this.showCity = false;
@@ -3704,7 +3723,7 @@
       },
       getCityId: function(code, input, index) {
         this.city = code;
-        this.City = input;
+        this.ovalue.City = input;
         this.showProvince=false;
         this.showCity=false;
         this.showDistrict = true;
@@ -3720,7 +3739,7 @@
       },
       getDistrictId: function(code, input, index) {
         this.district = code;
-        this.District = input;
+        this.ovalue.District = input;
         // 选择当前添加active
         this.showDistrictList.map( a => a.selected = false );
         this.showDistrictList[index].selected = true;
@@ -3745,14 +3764,19 @@
     outline: none;
     padding-left: 0.2rem;
     box-sizing: border-box;
+    height: 0.6rem;
+  }
+  .addressspan{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .addressspan span{
     display: block;
     float: left;
     text-align: center;
     line-height: 0.5rem;
-    width: 30%;
-    margin-right: 1%;
+    width: 31%;
     border:1px solid #ddd;
     height: 0.5rem;
   }

@@ -1,12 +1,16 @@
 <template>
     <ul class="list_box">
-      <li v-for="(item,index) in list" class="list" @click="productTo">
+      <li v-for="(item,index) in list" class="list" @click="productTo(item.id)">
         <div class="imgbox listimg">
           <p></p>
-          <img :src="item.img" alt="">
+          <img :src="item.pic1" alt="">
         </div>
-        <p class="title">{{item.name}}</p>
-        <p class="text">积分：{{item.text}}</p>
+        <p class="title">{{item.commodityName}}</p>
+        <div class="clearfix textbox">
+          <p class="fl">库存：{{item.inventoryNum}}</p>
+          <p class="fr">积分：{{item.commodityIntegral}}</p>
+        </div>
+
       </li>
     </ul>
 </template>
@@ -20,8 +24,8 @@
         }
       },
       methods:{
-        productTo(){
-          this.$router.push({path:'/product'})
+        productTo(id){
+          this.$router.push({path:'/product',query:{id:id}})
         }
       }
     }
@@ -52,9 +56,8 @@
     height: 1rem;
     overflow: hidden;
   }
-  .text{
+  .textbox{
     padding: 0 0.1rem;
-    font-size: 0.3rem;
-    text-align: right;
+    font-size: 0.28rem;
   }
 </style>

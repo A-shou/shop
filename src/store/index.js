@@ -3,7 +3,10 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 var state={
   footindex:0,
-  footclass:false
+  footclass:false,
+  siteId:'1001',
+  userId:'123',
+  cartData: null
 };
 var mutations = {
   setFootIndex(state,data,oldindex){
@@ -11,6 +14,9 @@ var mutations = {
   },
   setFootDown(state){
     state.footclass = true
+  },
+  setCartData (state, data) {
+    state.cartData = data
   }
 };
 

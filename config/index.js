@@ -10,17 +10,27 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      // '/cri-cms-platform': { target: 'http://112.103.196.145:9099' }
+      // '/cri-cms-api': { target: 'http://60.247.77.208:59099/cri-cms-api' }
+      '/cri-cms-api':{
+        target: 'http://60.247.77.208:59099',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/cri-cms-api': '/cri-cms-api'
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 8082, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */

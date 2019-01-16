@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <div>
+
+    </div>
     <router-view/>
 
     <ul class="foot" :class="{footdown:$store.state.footclass}">
@@ -129,5 +132,19 @@ export default {
   }
   .footdown{
     transform: translateY(110%);
+    opacity: 0;
+  }
+  .backbtn{
+    height: 0.4rem;
+    margin: 0.3rem 0;
+  }
+  .fltop{
+    position: fixed;
+    width: 100%;
+    background: #fff;
+    z-index: 999;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    margin: 0;
+    padding: 0 0.3rem;
   }
 </style>

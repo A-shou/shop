@@ -1,6 +1,6 @@
 <template>
     <div>
-      <v-swiper class="indexbanner"></v-swiper>
+      <v-swiper v-if="bannerList.length > 0" :banner="bannerList" class="indexbanner"></v-swiper>
 
       <!--<ul class="navlistbox">-->
         <!--<li class="navlist" v-for="(item,index) in navlist">-->
@@ -29,29 +29,28 @@
     data(){
       return{
         navlist:['1','2','3','4','5','6'],
-        product:[
-          {
-            img:require('../img/product.jpg'),
-            name:'123',
-            text:'123'
-          },
-          {
-            img:require('../img/product.jpg'),
-            name:'123',
-            text:'123'
-          },
-          {
-            img:require('../img/product.jpg'),
-            name:'123',
-            text:'123'
-          },
-          {
-            img:require('../img/product.jpg'),
-            name:'123',
-            text:'123'
-          },
-        ]
+        product:[],
+        bannerList:[]
       }
+    },
+    beforeMount(){
+      this.ajaxPost({
+        url:'/cri-cms-api/mall/app/queryCommodity',
+        success:res => {
+          console.log(res)
+          this.product = res.data.results
+        }
+      })
+      this.ajaxPost({
+        url:'/cri-cms-api/mall/app/queryCommodity',
+        data:{
+          isRecommend: '1'
+        },
+        success:res => {
+          console.log(res)
+          this.bannerList = res.data.results
+        }
+      })
     }
   }
 </script>
