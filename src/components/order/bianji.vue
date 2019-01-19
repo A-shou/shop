@@ -42,13 +42,15 @@
       },
       methods:{
         change (item) {
-          this.$router.replace({path: '/order', query: item})
+          if (this.$route.query.type && this.$route.query.type == 'order') {
+            this.$router.replace({path: '/order', query: item})
+          }
         },
         setlist(data){
-          this.$router.replace({path:'/setlist',query:{type:'change', data: data}})
+          this.$router.push({path:'/setlist',query:{type:'change', data: data}})
         },
         addAddress(){
-          this.$router.replace({path:'/setlist',query:{type:'add'}})
+          this.$router.push({path:'/setlist',query:{type:'add'}})
         }
       }
     }

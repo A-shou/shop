@@ -58,6 +58,6 @@
   }
   .textbox{
     padding: 0 0.1rem;
-    font-size: 0.28rem;
+    font-size: 0.22rem;
   }
 </style>

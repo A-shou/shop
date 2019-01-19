@@ -15,6 +15,10 @@ import search from '@/components/block/search.vue';
 Vue.use(search)
 Vue.component('v-search', search);
 
+import alterbox from '@/components/block/alterbox.vue';
+Vue.use(alterbox)
+Vue.component('v-alterbox', alterbox);
+
 // require styles
 import 'swiper/dist/css/swiper.css'
 
@@ -49,6 +53,28 @@ Vue.prototype.ajaxPost = function(obj){ //ajax post方法
   })
 }
 
+Vue.prototype.keydownFun = function (nub, fun) {
+  let gettype = Object.prototype.toString
+  let arrtrue = gettype.call(nub) === '[object Array]' ? true : false
+  if (typeof nub === 'number') {
+    nub = nub + ''
+  }
+  if (arrtrue){
+    for (let i = 0; i < nub.length; i++) {
+      if (typeof nub[i] === 'string') {
+        nub[i] = parseInt(nub[i])
+      }
+    }
+  }
+  document.onkeydown = function(){
+    if (nub === 'all') {
+      fun()
+    } else if (nub.indexOf(event.keyCode) >= 0) {
+      fun()
+    }
+  }
+}
+console.log = function () {}
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -59,6 +85,13 @@ new Vue({
 })
 
 router.beforeEach((to,from,next) => {
+  if (to.path == '/user' || to.path == '/cart') {
+    if (!store.state.userId) {
+      router.push('/login')
+      window.scrollTo(0,0);
+      return
+    }
+  }
   next()
   if(to.path == '/'){
     store.state.footindex = 0

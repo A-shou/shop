@@ -9,7 +9,7 @@
 
       <div class="clearfix class_box">
         <div class="fl lbox">
-          <div v-for="(item,index) in navlist" class="lbox_list" :class="{lbox_liston: index == navindex}" @click="navto(index)">{{item.typeName}}</div>
+          <div v-for="(item,index) in navlist" class="lbox_list" :class="{lbox_liston: index == navindex}" @click="navto(index, item.id)">{{item.typeName}}</div>
         </div>
 
         <div class="rbox fr">
@@ -29,49 +29,8 @@
       data(){
         return{
           navindex:0,
-          navlist:['123','123','123','123','123','123','123','123','123','123','123','123','123','123','123'],
-          product:[
-            {
-              img:require('../img/product.jpg'),
-              name:'123',
-              text:'123'
-            },
-            {
-              img:require('../img/product.jpg'),
-              name:'123',
-              text:'123'
-            },
-            {
-              img:require('../img/product.jpg'),
-              name:'123',
-              text:'123'
-            },
-            {
-              img:require('../img/product.jpg'),
-              name:'123',
-              text:'123'
-            },
-            {
-              img:require('../img/product.jpg'),
-              name:'123',
-              text:'123'
-            },
-            {
-              img:require('../img/product.jpg'),
-              name:'123',
-              text:'123'
-            },
-            {
-              img:require('../img/product.jpg'),
-              name:'123',
-              text:'123'
-            },
-            {
-              img:require('../img/product.jpg'),
-              name:'123',
-              text:'123'
-            },
-          ]
+          navlist:[],
+          product:[]
         }
       },
       beforeMount(){
@@ -79,6 +38,17 @@
           url:'/cri-cms-api/mall/app/queryType',
           success: res => {
             this.navlist = res.data.results
+            this.navlist.unshift({
+              typeName: '全部',
+              id: ''
+            })
+          }
+        })
+        this.ajaxPost({
+          url:'/cri-cms-api/mall/app/queryCommodity',
+          success:res => {
+            console.log(res)
+            this.product = res.data.results
           }
         })
       },
@@ -86,8 +56,18 @@
         goback(){
           this.$router.back(-1)
         },
-        navto(index){
+        navto(index, id){
           this.navindex = index
+          this.ajaxPost({
+            url:'/cri-cms-api/mall/app/queryCommodity',
+            data: {
+              typeId: id
+            },
+            success:res => {
+              console.log(res)
+              this.product = res.data.results
+            }
+          })
         }
       }
     }

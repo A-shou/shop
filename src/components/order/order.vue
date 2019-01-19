@@ -5,7 +5,7 @@
       </div>
       <div style="height: 1rem"></div>
 
-      <div v-if="adlist" class="box shxx" @click="$router.push({path:'/bianji'})">
+      <div v-if="adlist" class="box shxx" @click="$router.replace({path:'/bianji',query: {type: 'order'}})">
         <p><span>收货人姓名:</span><span>{{adlist.consigneeName}}</span></p>
         <p><span>收货人电话：</span><span>{{adlist.consigneePhone}}</span></p>
         <p><span>收货地址：</span><span>{{adlist.consigneeProvince}} - {{adlist.consigneeCity}} - {{adlist.consigneeArea}} - {{adlist.consigneeContent}}</span></p>
@@ -93,7 +93,7 @@
               addressId: this.adlist.id
             },
             success: res => {
-              this.$router.push('/pagelist')
+              this.$router.replace('/pagelist')
             }
           })
         }

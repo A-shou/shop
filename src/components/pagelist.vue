@@ -5,12 +5,12 @@
       </div>
       <div style="height: 1rem"></div>
 
-      <div class="prolist" v-for="(item,index) in biglist">
-        <p>订单状态： {{item.orderStatus}}</p>
-        <div class="shxx">
-          <p><span>收货人姓名:</span><span>123</span></p>
-          <p><span>收货人电话：</span><span>1111111123232</span></p>
-          <p><span>收货地址：</span><span>dfhsjlhfjwhejfhjhjfhjdhfj</span></p>
+      <div v-if="biglist.length > 0" class="prolist" v-for="(item,index) in biglist">
+        <div>订单状态： {{item.orderStatus}}</div>
+        <div v-if="item.mallAddress" class="shxx">
+          <p><span>收货人姓名:</span><span>{{item.mallAddress.consigneeName}}</span></p>
+          <p><span>收货人电话：</span><span>{{item.mallAddress.consigneePhone}}</span></p>
+          <p><span>收货地址：</span><span>{{item.mallAddress.consigneeProvince}} - {{item.mallAddress.consigneeCity}} - {{item.mallAddress.consigneeArea}} - {{item.mallAddress.consigneeContent}}</span></p>
         </div>
         <div class="imgbox line" style="margin-bottom: 0.2rem;">
           <img src="../img/line.jpg" alt="">
@@ -28,11 +28,15 @@
           </li>
         </ul>
         <div class="box zhbox">
-          <p>商品数：<span>2 件</span></p>
+          <p>商品数：<span>{{item.pNumber}} 件</span></p>
           <p>总积分：<span>{{item.orderIntegral}} 积分</span></p>
+          <p>下单时间：<span>{{item.createDate}}</span></p>
         </div>
       </div>
 
+      <div v-if="biglist.length == 0" style="text-align: center;padding-top: 1rem;color: #ddd;font-size: 0.36rem;">
+        暂无订单
+      </div>
     </div>
 </template>
 
@@ -42,20 +46,48 @@
         return{
           list:['1','2'],
           biglist:['1','2'],
+          typeList:['已下单', '已发货', '订单完成']
         }
       },
       beforeMount(){
         this.$store.commit('setFootDown')
-        this.ajaxPost({
-          url: '/cri-cms-api/mall/app/queryOrder',
-          data: {
-            userId: this.$store.state.userId
-          },
-          success: res => {
-            console.log(res.data.results)
-            this.biglist = res.data.results
-          }
-        })
+
+        if (this.$route.query.type) {
+          this.ajaxPost({
+            url: '/cri-cms-api/mall/app/queryOrder',
+            data: {
+              userId: this.$store.state.userId,
+              orderStatus: this.typeList[this.$route.query.type - 1]
+            },
+            success: res => {
+              console.log(res.data.results)
+              this.biglist = res.data.results
+              this.biglist.forEach(item => {
+                item.pNumber = 0
+                item.mallCommodityList.forEach(litem => {
+                  item.pNumber += Number(litem.commodityNum)
+                })
+              })
+            }
+          })
+        } else {
+          this.ajaxPost({
+            url: '/cri-cms-api/mall/app/queryOrder',
+            data: {
+              userId: this.$store.state.userId
+            },
+            success: res => {
+              console.log(res.data.results)
+              this.biglist = res.data.results
+              this.biglist.forEach(item => {
+                item.pNumber = 0
+                item.mallCommodityList.forEach(litem => {
+                  item.pNumber += Number(litem.commodityNum)
+                })
+              })
+            }
+          })
+        }
       }
     }
 </script>

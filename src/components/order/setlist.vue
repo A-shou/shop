@@ -58,8 +58,7 @@
               consigneeContent: this.address.text
             },
             success: res => {
-              console.log('a')
-              this.$router.replace('/bianji')
+              this.$router.back(-1)
             }
           })
         }else{
@@ -76,8 +75,7 @@
               consigneeContent: this.address.text
             },
             success: res => {
-              console.log('a')
-              this.$router.push('/bianji')
+              this.$router.back(-1)
             }
           })
         }

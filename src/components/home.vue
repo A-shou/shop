@@ -6,12 +6,12 @@
 
     <div class="nav_box">
       <ul class="navbox box">
-        <li v-for="(item,index) in navlist" @click="listClick(item)" class="navlist" :class="{navliston:navindex == index}">{{item.typeName}}</li>
+        <li v-for="(item,index) in navlist" @click="listClick(item.id, index)" class="navlist" :class="{navliston:navindex == index}">{{item.typeName}}</li>
       </ul>
       <div class="navmore" @click="$router.push({path:'/class'})">+</div>
     </div>
 
-    <router-view/>
+    <router-view ref="listbox" />
 
   </div>
 </template>
@@ -21,7 +21,7 @@
       data(){
         return{
           navindex:0,
-          navlist:['123','456','123','456','123','456','123','456'],
+          navlist:[],
         }
       },
       beforeMount(){
@@ -29,12 +29,17 @@
           url:'/cri-cms-api/mall/app/queryType',
           success: res => {
             this.navlist = res.data.results
+            this.navlist.unshift({
+              typeName: '全部',
+              id: ''
+            })
           }
         })
       },
       methods: {
-        listClick () {
-
+        listClick (id, index) {
+          this.$refs.listbox.getList(id)
+          this.navindex = index
         }
       }
     }
@@ -67,8 +72,8 @@
     width: 0.8rem;
     background: #fff;
     text-align: center;
-    line-height: 0.4rem;
-    font-size: 0.4rem;
+    line-height: 0.7rem;
+    font-size: 0.5rem;
     box-shadow: -0.04rem 0 0.2rem rgba(0,0,0,0.2);
     z-index: 100;
     position: absolute;

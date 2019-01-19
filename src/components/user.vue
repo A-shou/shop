@@ -2,13 +2,13 @@
     <div>
       <div class="topbox clearfix">
         <div class="imgbox txbox fl">
-          <img src="../img/tx_img4.jpg" alt="">
+          <img :src="$store.state.userData.thumb" alt="">
         </div>
         <div class="fl">
-          <p class="username">name</p>
+          <p class="username">{{$store.state.userData.nickname}}</p>
           <p class="jifen">积分：123456789</p>
         </div>
-        <p class="tuichubtn">退出登录</p>
+        <p class="tuichubtn" @click="logout">退出登录</p>
       </div>
 
       <div class="myaouderbox">
@@ -20,19 +20,19 @@
         </p>
 
         <ul class="listbox">
-          <li class="list" @click="$router.push({path:'/pagelist'})">
+          <li class="list" @click="$router.push({path:'/pagelist', query:{type: 1}})">
             <div class="imgbox">
               <img src="../img/dfk_icon.png" alt="">
             </div>
             <p>已完成</p>
           </li>
-          <li class="list" @click="$router.push({path:'/pagelist'})">
+          <li class="list" @click="$router.push({path:'/pagelist', query:{type: 2}})">
             <div class="imgbox">
               <img src="../img/dfh_icon.png" alt="">
             </div>
             <p>待发货</p>
           </li>
-          <li class="list" @click="$router.push({path:'/pagelist'})">
+          <li class="list" @click="$router.push({path:'/pagelist', query:{type: 3}})">
             <div class="imgbox">
               <img src="../img/dsh_icon.png" alt="">
             </div>
@@ -47,11 +47,11 @@
           我的地址
           <img class="fr imgbtn" src="../img/back_icon.png" alt="">
         </p>
-        <p class="clearfix myaouder">
-          <img class="fl listimg" src="../img/password.png" alt="">
-          修改密码
-          <img class="fr imgbtn" src="../img/back_icon.png" alt="">
-        </p>
+        <!--<p class="clearfix myaouder">-->
+          <!--<img class="fl listimg" src="../img/password.png" alt="">-->
+          <!--修改密码-->
+          <!--<img class="fr imgbtn" src="../img/back_icon.png" alt="">-->
+        <!--</p>-->
       </div>
     </div>
 </template>
@@ -62,7 +62,13 @@
           return{
 
           }
-        }
+        },
+      methods: {
+          logout () {
+            localStorage.removeItem('userInfo');
+            this.$store.commit('logout')
+          }
+      }
     }
 </script>
 
@@ -74,9 +80,9 @@
     font-size: 0.24rem;
   }
   .listimg{
-    width: 0.4rem;
+    width: 0.5rem;
     margin-top: 0.2rem;
-    margin-right: 0.1rem;
+    margin-right: 0.2rem;
   }
   .listbox{
     padding: 0.2rem 0;
@@ -99,7 +105,7 @@
   }
   .imgbtn{
     height: 0.3rem;
-    margin-top: 0.26rem;
+    margin-top: 0.36rem;
     transform: rotate(180deg);
   }
   .myaouderbox{
@@ -107,8 +113,8 @@
     padding: 0 0.3rem;
   }
   .myaouder{
-    height: 0.8rem;
-    line-height: 0.8rem;
+    height: 1rem;
+    line-height: 1rem;
     border-bottom: 1px solid #ddd;
   }
   .username{
@@ -122,6 +128,9 @@
     border-radius: 50%;
     border: 0.06rem solid #fff;
     margin-right: 0.3rem;
+  }
+  .txbox img{
+    height: 100%;
   }
   .topbox{
     padding: 0.4rem 0.3rem;

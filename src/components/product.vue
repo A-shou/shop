@@ -73,6 +73,10 @@
     },
     methods:{
       addCart(){
+        if (!this.$store.state.userId) {
+          this.$router.push('/login')
+          return
+        }
         this.loading = true
         this.ajaxPost({
           url:'/cri-cms-api/mall/app/saveTrolley',

@@ -4,7 +4,7 @@
 
     </div>
     <router-view/>
-
+    <v-alterbox></v-alterbox>
     <ul class="foot" :class="{footdown:$store.state.footclass}">
       <li v-for="(item,index) in foot" class="footlist" @click="pageto(item.to,index)">
         <img v-if="$store.state.footindex != index" :src="item.url" alt="" class="foot_icon">
@@ -52,6 +52,12 @@ export default {
     pageto(path,index){
       this.$store.commit('setFootIndex',index)
       this.$router.push({path:path})
+    }
+  },
+  created () {
+    if (localStorage.userInfo) {
+      console.log(JSON.parse(localStorage.userInfo))
+      this.$store.commit('login', JSON.parse(localStorage.userInfo))
     }
   }
 }

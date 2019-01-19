@@ -1,7 +1,7 @@
 <template>
   <div class="searchbox clearfix">
     <img src="../../img/search_btn.png" alt="" class="fl">
-    <input class="search" placeholder="请输入搜索内容" type="search"/>
+    <input class="search" v-model="searchtext" placeholder="请输入搜索内容" type="search"/>
   </div>
 </template>
 
@@ -9,8 +9,14 @@
     export default {
       data(){
           return{
-
+            searchtext: ''
           }
+      },
+      mounted () {
+        this.keydownFun('13', () => {
+          this.$router.replace({path: '/search', query:{search: this.searchtext, type: 'search'}})
+          this.$emit('psearch', 'this.searchtext')
+        })
       }
     }
 </script>

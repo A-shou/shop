@@ -50,6 +50,11 @@ export default new Router({
       component: product,
     },
     {
+      path: '/login',
+      name: 'login',
+      component: (resolve) => require(['../components/login.vue'],resolve),
+    },
+    {
       path: '/order',
       name: 'order',
       component: (resolve) => require(['../components/order/order.vue'],resolve),

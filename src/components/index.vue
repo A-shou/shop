@@ -33,6 +33,20 @@
         bannerList:[]
       }
     },
+    methods: {
+      getList (id) {
+        this.ajaxPost({
+          url:'/cri-cms-api/mall/app/queryCommodity',
+          data: {
+            typeId: id
+          },
+          success:res => {
+            console.log(res)
+            this.product = res.data.results
+          }
+        })
+      }
+    },
     beforeMount(){
       this.ajaxPost({
         url:'/cri-cms-api/mall/app/queryCommodity',

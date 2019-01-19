@@ -9,7 +9,13 @@
         <p class="fr" @click="bianji = !bianji">编辑 <img class="topbtn" src="../img/bianji.png" alt=""></p>
       </div>
 
-      <ul class="box">
+      <div v-if="list.length <= 0" class="nop_box">
+        <img src="../img/no_product.png" alt="">
+        <p>购物车暂无商品</p>
+        <div class="pushbtn" @click="$router.push('/')">去逛逛</div>
+      </div>
+
+      <ul v-if="list.length > 0"  class="box">
         <li v-for="(item,index) in list" class="cartlist">
           <img v-if="bianji" class="remove" src="../img/remove.png" alt="" @click="remove(item.id)">
           <!--<label>-->
@@ -116,6 +122,10 @@
           })
         },
         shop(){
+          if (this.list.length <= 0) {
+            this.$store.commit('setAlter', '请选择商品')
+            return
+          }
           let obj = {
             list: this.list,
             allNumber: this.allNumber
@@ -244,5 +254,26 @@
     border-right: 1px solid #ddd;
     font-size: 0.26rem;
     line-height: 0.4rem;
+  }
+  .nop_box{
+    text-align: center;
+    font-size: 0.28rem;
+    line-height: 0.4rem;
+    color: #aaa;
+    padding-top: 1rem;
+  }
+  .nop_box img{
+    width: 40%;
+    margin: 0 auto 0.4rem;
+  }
+  .pushbtn{
+    margin: 0.8rem auto 0;
+    width: 2rem;
+    text-align: center;
+    color: #fff;
+    background: orange;
+    border-radius: 0.1rem;
+    padding: 0.1rem 0;
+    text-align: center;
   }
 </style>
