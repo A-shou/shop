@@ -59,6 +59,22 @@ export default {
       console.log(JSON.parse(localStorage.userInfo))
       this.$store.commit('login', JSON.parse(localStorage.userInfo))
     }
+  },
+  mounted () {
+    if (this.$route.query.siteId) {
+      this.$store.commit('setSiteId', this.$route.query.siteId)
+    }
+    if (this.$route.query.cid) {
+      this.ajaxPost({
+        url: '/cri-cms-api/member/detail',
+        data: {
+          id: this.$route.query.cid
+        },
+        success: res => {
+          this.$store.commit('login', res.data.results.member)
+        }
+      })
+    }
   }
 }
 </script>
@@ -152,5 +168,11 @@ export default {
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
     margin: 0;
     padding: 0 0.3rem;
+  }
+  .swiper-pagination{
+    bottom: 0 !important;
+  }
+  .box *{
+    max-width: 100% !important;
   }
 </style>

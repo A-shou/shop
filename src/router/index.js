@@ -11,6 +11,7 @@ import product from '@/components/product'
 Vue.use(Router)
 
 export default new Router({
+  base: '/shopMall/',
   routes: [
     {
       path: '/',

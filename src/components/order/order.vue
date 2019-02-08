@@ -65,6 +65,10 @@
       },
       methods: {
         addOrder () {
+          if (!this.adlist) {
+            this.$store.commit('setAlter', '请选择地址')
+            return
+          }
           let commodityInfo = ''
           this.list.forEach((item, index) => {
             if (index == this.list.length - 1) {

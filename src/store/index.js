@@ -12,6 +12,9 @@ var state={
   alterText: '提示'
 };
 var mutations = {
+  setSiteId (state, data) {
+    state.siteId = data
+  },
   setFootIndex(state,data,oldindex){
     state.footindex = data
   },
@@ -29,7 +32,6 @@ var mutations = {
   logout () {
     state.userId = null
     state.userData = null
-    this.$router.push('/')
   },
   setAlter (state, data) {
     state.alterShow = true

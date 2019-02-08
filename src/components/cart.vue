@@ -18,10 +18,7 @@
       <ul v-if="list.length > 0"  class="box">
         <li v-for="(item,index) in list" class="cartlist">
           <img v-if="bianji" class="remove" src="../img/remove.png" alt="" @click="remove(item.id)">
-          <!--<label>-->
-            <!--<div class="checkbox"><span></span></div>-->
-            <!--<input style="display: none;" type="checkbox"/>-->
-          <!--</label>-->
+          <div class="checkbox" @click="chageCheck(item)" :class="{checkboxon : item.checked}"><span></span></div>
           <div class="imgbox listimg">
             <img :src="item.mallCommodity.pic1" alt="">
           </div>
@@ -38,13 +35,10 @@
       </ul>
 
       <div class="cartfoot">
-        <!--<div style="margin-left: 0.3rem;">-->
-          <!--&lt;!&ndash;<label>&ndash;&gt;-->
-            <!--&lt;!&ndash;<div class="checkbox fl"><span></span></div>&ndash;&gt;-->
-            <!--&lt;!&ndash;<input style="display: none;" type="checkbox"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;全选&ndash;&gt;-->
-          <!--&lt;!&ndash;</label>&ndash;&gt;-->
-        <!--</div>-->
+        <div style="margin-left: 0.3rem;">
+          <div class="checkbox fl" @click="allCheck" :class="{checkboxon : allchecked}"><span></span></div>
+          全选
+        </div>
         <p class="allnumber" style="padding-left: 0.3rem;">总计：{{allNumber}}</p>
         <div class="shopbtn" @click="shop">立即结算</div>
       </div>
@@ -57,13 +51,45 @@
         return{
           bianji:false,
           list:[],
-          allNumber: 0
+          allNumber: 0,
+          allchecked: true
         }
       },
       beforeMount(){
         this.getList()
       },
       methods:{
+        allCheck () {
+          this.allNumber = 0
+          if (!this.allchecked) {
+            this.allchecked = true
+            this.list.forEach(item => {
+              item.checked = true
+              this.allNumber += Number(item.commodityNum) * Number(item.mallCommodity.commodityIntegral)
+            })
+          }
+        },
+        chageCheck (item) {
+          item.checked = !item.checked
+          if (!item.checked) {
+            this.allchecked = false
+          } else {
+            this.allchecked = true
+            this.list.forEach(item => {
+              if (!item.checked) {
+                this.allchecked = false
+              } else {
+                this.allNumber += Number(item.commodityNum) * Number(item.mallCommodity.commodityIntegral)
+              }
+            })
+          }
+          this.allNumber = 0
+          this.list.forEach(item => {
+            if (item.checked) {
+              this.allNumber += Number(item.commodityNum) * Number(item.mallCommodity.commodityIntegral)
+            }
+          })
+        },
         getList () {
           this.ajaxPost({
             url:'/cri-cms-api/mall/app/queryTrolley',
@@ -75,6 +101,7 @@
               this.list = res.data.results
               this.allNumber = 0
               this.list.forEach(item => {
+                item.checked = true
                 this.allNumber += Number(item.commodityNum) * Number(item.mallCommodity.commodityIntegral)
               })
             }
@@ -126,8 +153,14 @@
             this.$store.commit('setAlter', '请选择商品')
             return
           }
+          let shoplist = []
+          this.list.forEach(item => {
+            if (item.checked) {
+              shoplist.push(item)
+            }
+          })
           let obj = {
-            list: this.list,
+            list: shoplist,
             allNumber: this.allNumber
           }
           this.$store.commit('setCartData',obj)
@@ -216,7 +249,7 @@
     margin-right: 0.2rem;
   }
   .textbox{
-    width: calc(100% - 2.4rem);
+    width: calc(100% - 3.4rem);
     height: 1.5rem;
     position: relative;
   }

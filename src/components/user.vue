@@ -42,7 +42,7 @@
       </div>
 
       <div class="box">
-        <p class="clearfix myaouder" @click="$router.push({path:'/bianji'})">
+        <p class="clearfix myaouder" @click="$router.push({path:'/bianji', query:{type: 'my'}})">
           <img class="fl listimg" src="../img/dizhi_icon.png" alt="">
           我的地址
           <img class="fr imgbtn" src="../img/back_icon.png" alt="">
@@ -67,6 +67,7 @@
           logout () {
             localStorage.removeItem('userInfo');
             this.$store.commit('logout')
+            this.$router.push('/')
           }
       }
     }
@@ -135,6 +136,7 @@
   .topbox{
     padding: 0.4rem 0.3rem;
     position: relative;
+    background: #ee7900;
     background: -webkit-linear-gradient(left,#ffa84e, #ee7900);
     background: -o-linear-gradient(left,#ffa84e, #ee7900);
     background: -moz-linear-gradient(left,#ffa84e, #ee7900);

@@ -42,7 +42,7 @@
       },
       methods:{
         change (item) {
-          if (this.$route.query.type && this.$route.query.type == 'order') {
+          if (this.$route.query.type != 'my') {
             this.$router.replace({path: '/order', query: item})
           }
         },

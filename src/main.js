@@ -74,7 +74,7 @@ Vue.prototype.keydownFun = function (nub, fun) {
     }
   }
 }
-console.log = function () {}
+// console.log = function () {}
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
