@@ -17,6 +17,8 @@
           <v-asbox :ovalue="address" />
         </div>
     </div>
+
+    <v-alter :text="alertText" :show="alertShow" @close="alertShow = false"></v-alter>
   </div>
 </template>
 
@@ -29,8 +31,11 @@
     },
     data(){
       return{
+        alertShow: false,
+        alertText: '',
         name:'',
         phone:'',
+        phoneyz: /^[1][3,4,5,7,8][0-9]{9}$/,
         address:{
           text: '',
           District: '请选择区域',
@@ -45,6 +50,12 @@
     },
     methods:{
       addAddress(){
+        let phoney = this.phoneyz.test(this.userData.consigneePhone)
+        if (!phoney) {
+          this.alertText = '请输入正确的手机号'
+          this.alertShow = true
+          return false
+        }
         if(this.$route.query.type == 'add'){
           this.ajaxPost({
             url:'/cri-cms-api/mall/app/saveAddress',

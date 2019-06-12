@@ -3,7 +3,7 @@
       <swiper :options="swiperOption" ref="mySwiper" class="bannerbox">
         <swiper-slide v-for="(item,index) in banner" :key="index" class="swiper-slide">
           <div class="imgbox">
-            <img :src="item.pic1">
+            <img :src="item.pic1" @click="productTo(item.id)">
           </div>
         </swiper-slide>
         <div class="swiper-pagination" slot="pagination"></div>
@@ -36,6 +36,11 @@
           observer:true,//修改swiper自己或子元素时，自动初始化swiper
           observeParents:true,//修改swiper的父元素时，自动初始化swiper
         },
+      }
+    },
+    methods: {
+      productTo(id){
+        this.$router.push({path:'/product',query:{id:id}})
       }
     }
   }

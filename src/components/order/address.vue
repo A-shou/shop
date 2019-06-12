@@ -50,7 +50,6 @@
         city: 3,
         district: 57,
         GetProvinceId: 2,
-
         // v-for循环判断是否为当前
         selected: false,
         info: [

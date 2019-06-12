@@ -25,6 +25,7 @@ var mutations = {
     state.cartData = data
   },
   login (state, data) {
+    console.log(data)
     state.userId = data.cid
     state.userData = data
     localStorage.userInfo = JSON.stringify(data)

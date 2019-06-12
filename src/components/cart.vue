@@ -5,7 +5,7 @@
       <!--</div>-->
 
       <div class="clearfix toptext">
-        <p class="fl">可用积分：<span style="color: #ff4e4e;">123456</span></p>
+        <p class="fl">可用积分：<span style="color: #ff4e4e;">{{credits}}</span></p>
         <p class="fr" @click="bianji = !bianji">编辑 <img class="topbtn" src="../img/bianji.png" alt=""></p>
       </div>
 
@@ -42,6 +42,8 @@
         <p class="allnumber" style="padding-left: 0.3rem;">总计：{{allNumber}}</p>
         <div class="shopbtn" @click="shop">立即结算</div>
       </div>
+
+      <v-alter :text="alertText" :show="alertShow" @close="alertShow = false"></v-alter>
     </div>
 </template>
 
@@ -49,14 +51,26 @@
     export default {
       data(){
         return{
+          alertShow: false,
+          alertText: '',
           bianji:false,
           list:[],
           allNumber: 0,
-          allchecked: true
+          allchecked: true,
+          credits: 0
         }
       },
       beforeMount(){
         this.getList()
+        this.ajaxPost({
+          url: '/cri-cms-api/mall/app/member/credits',
+          data: {
+            memberId: this.$store.state.userId
+          },
+          success: res => {
+            this.credits = res.data.result.credits
+          }
+        })
       },
       methods:{
         allCheck () {
@@ -149,6 +163,11 @@
           })
         },
         shop(){
+          if (this.credits < this.allNumber) {
+            this.alertText = '积分不足'
+            this.alertShow = true
+            return
+          }
           if (this.list.length <= 0) {
             this.$store.commit('setAlter', '请选择商品')
             return

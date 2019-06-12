@@ -19,6 +19,10 @@ import alterbox from '@/components/block/alterbox.vue';
 Vue.use(alterbox)
 Vue.component('v-alterbox', alterbox);
 
+import alter_box from '@/components/alertBlock.vue';
+Vue.use(alter_box)
+Vue.component('v-alter', alter_box);
+
 // require styles
 import 'swiper/dist/css/swiper.css'
 

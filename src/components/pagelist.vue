@@ -48,7 +48,7 @@
         return{
           list:['1','2'],
           biglist:['1','2'],
-          typeList:['已下单', '已发货', '订单完成']
+          typeList:['订单完成', '待发货', '已发货' ]
         }
       },
       beforeMount(){
@@ -62,7 +62,6 @@
               orderStatus: this.typeList[this.$route.query.type - 1]
             },
             success: res => {
-              console.log(res.data.results)
               this.biglist = res.data.results
               this.biglist.forEach(item => {
                 item.pNumber = 0

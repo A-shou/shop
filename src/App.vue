@@ -71,6 +71,7 @@ export default {
           id: this.$route.query.cid
         },
         success: res => {
+          console.log(res)
           this.$store.commit('login', res.data.results.member)
         }
       })

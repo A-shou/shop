@@ -6,7 +6,7 @@
         </div>
         <div class="fl">
           <p class="username">{{$store.state.userData.nickname}}</p>
-          <p class="jifen">积分：123456789</p>
+          <p class="jifen">积分：{{credits}}</p>
         </div>
         <p class="tuichubtn" @click="logout">退出登录</p>
       </div>
@@ -60,7 +60,7 @@
     export default {
         data(){
           return{
-
+            credits: 0
           }
         },
       methods: {
@@ -69,6 +69,17 @@
             this.$store.commit('logout')
             this.$router.push('/')
           }
+      },
+      beforeMount() {
+        this.ajaxPost({
+          url: '/cri-cms-api/mall/app/member/credits',
+          data: {
+            memberId: this.$store.state.userId
+          },
+          success: res => {
+            this.credits = res.data.result.credits
+          }
+        })
       }
     }
 </script>
