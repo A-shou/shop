@@ -31,8 +31,8 @@
           <p>商品数：<span>{{item.pNumber}} 件</span></p>
           <p>总积分：<span>{{item.orderIntegral}} 积分</span></p>
           <p>下单时间：<span>{{item.createDate}}</span></p>
-          <p>快递单号：<span>{{item.logisticsName}}</span></p>
-          <p>订单号：<span>{{item.logisticsNo}}</span></p>
+          <p>快递单号：<span>{{item.logisticsNo}}</span></p>
+          <p>订单号：<span>{{item.id}}</span></p>
         </div>
       </div>
 
